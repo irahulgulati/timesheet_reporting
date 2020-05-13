@@ -22,6 +22,7 @@ class timesheet:
         # Setting the base directory and file paths
         self.basedir = os.path.abspath(os.path.dirname(__file__))
         self.timesheetDir = self.basedir + '\\timesheets'
+        self.slack_webhook = os.environ.get('Sankara_Webhook')
 
     # main logic
 
@@ -117,7 +118,7 @@ class timesheet:
         }
         if os.stat(self.sheetlocation).st_mtime != self._cachedTime:
             requests.post(
-                'https://hooks.slack.com/services/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', data=json.dumps(data))
+                self.slack_webhook, data=json.dumps(data))
         else:
             # print(self._cachedTime)
             print("False")
